@@ -22,7 +22,7 @@ An exploratory analysis of **93 public opinions** (30 replies and 63 quote tweet
 2. **Cleaning:** removed the thread author's replies and replies without an opinion; normalized slang. Result: 93 opinions.
 3. **Labeling:** three annotators (two people and one AI model) labeled sentiment (Negative, Positive, Mixed, Neutral) and ten aspects with a written codebook. Order was randomized; usernames and likes were hidden.
 4. **Final label:** majority vote (2 of 3); nine ties were decided with codebook rules.
-5. **Analysis (Python, pandas, SciPy):** descriptive statistics, Wilson confidence intervals, chi-square, binomial test, Mann-Whitney U, Spearman correlation, Cohen's and Fleiss' Kappa.
+5. **Analysis (Python: pandas, NumPy, SciPy, scikit-learn):** descriptive statistics, Wilson confidence intervals, chi-square, binomial test, Mann-Whitney U, Spearman correlation, Cohen's and Fleiss' Kappa.
 
 ### Key results (indicative only)
 
@@ -56,7 +56,7 @@ An exploratory analysis of **93 public opinions** (30 replies and 63 quote tweet
 - The thread's question was leading, so the roughly two-thirds negative share does **not** represent overall public opinion.
 - One thread, not a random sample; p-values and confidence intervals are descriptive.
 - Inter-annotator agreement is moderate (Fleiss' Kappa = 0.55); several aspects are lower (Kappa 0.30-0.39).
-- The AI model drafted the codebook, labeled, and helped decide ties (7 of 9 tie decisions matched its label). If ties had followed the human annotator's labels, the negative share would be 59.1%; the conclusions do not change.
+- The AI model drafted the codebook, labeled, and helped decide ties (8 of 9 tie decisions matched its label). If ties had followed the human annotator's labels, the negative share would be 59.1%; the conclusions do not change.
 - Findings should be validated against internal complaint data before any decision is based on them.
 
 ## Repository contents
@@ -65,17 +65,39 @@ An exploratory analysis of **93 public opinions** (30 replies and 63 quote tweet
 Pos-Indonesia-Enterprise-Business/
 ├── README.md
 ├── .gitignore
-└── docs/
-    ├── Sinyal_Awal_Persepsi_Netizen_terhadap_Pos_Indonesia.pdf
-    └── Laporan_Pendamping_Metode_Proses_Analisis_dan_Angka_Lengkap.pdf
+├── docs/
+│   ├── Sinyal_Awal_Persepsi_Netizen_terhadap_Pos_Indonesia.pdf
+│   └── Laporan_Pendamping_Metode_Proses_Analisis_dan_Angka_Lengkap.pdf
+└── scripts/
+    ├── label_ai.py
+    └── langkah4_analisis.py
 ```
+
+**Documents**
 
 - [Summary deck (PDF, Indonesian)](./docs/Sinyal_Awal_Persepsi_Netizen_terhadap_Pos_Indonesia.pdf)
 - [Companion report: methods and full numbers (PDF, Indonesian)](./docs/Laporan_Pendamping_Metode_Proses_Analisis_dan_Angka_Lengkap.pdf)
 
+**Scripts**
+
+| Script | Purpose |
+|---|---|
+| [`scripts/label_ai.py`](./scripts/label_ai.py) | Labels from the third annotator (AI model), written before the human labels were opened. Sentiment, aspect codes (+ praise, - criticism), competitor mention and a short note per opinion. |
+| [`scripts/langkah4_analisis.py`](./scripts/langkah4_analisis.py) | Inter-annotator reliability (Cohen's and Fleiss' Kappa), final labels by majority vote with documented tie decisions, and all descriptive statistics and tests. |
+
+## Reproducing the analysis
+
+The scripts are published for transparency. They **cannot run from this repository alone**, because the input data are excluded for privacy:
+
+- `langkah4_analisis.py` reads `label_p2.xlsx`, `label_kahfi.xlsx` and `data_bersih_pos.csv` (annotator sheets and the cleaned tweet dataset).
+- It writes results to an `analisis/` folder, which must exist before running.
+- Requirements: Python 3, pandas, NumPy, SciPy, scikit-learn, openpyxl.
+
+Run it from a working folder that holds the input files and `label_ai.py`.
+
 ## Data and privacy
 
-Raw tweets, annotator sheets and any internal data are excluded (see `.gitignore`) to respect user privacy and platform terms. All figures can be recomputed from the cleaned dataset and scripts held internally.
+Raw tweets, usernames, annotator sheets, the cleaned dataset and generated outputs that contain tweet text are excluded (see `.gitignore`) to respect user privacy and platform terms. No internal Pos Indonesia data is included.
 
 ## Author
 
