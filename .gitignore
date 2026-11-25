@@ -1,0 +1,7 @@
+# Raw and personal data are never committed (user accounts, tweet text, tender data)
+data/
+*.csv
+lembar_pelabelan_*.xlsx
+.ipynb_checkpoints/
+__pycache__/
+.DS_Store
